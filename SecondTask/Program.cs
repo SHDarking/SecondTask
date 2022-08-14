@@ -1,6 +1,8 @@
+using Microsoft.EntityFrameworkCore;
 using SecondTask;
 using SecondTask.Interfaces;
 using SecondTask.Repository;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,8 +12,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<LibraryContext>();
-builder.Services.AddScoped<IRepository, LibraryRepository>();
+builder.Services.AddDbContext<LibraryContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQLLocalDb")));
+builder.Services.AddScoped<ILibraryRepository, LibraryRepository>();
 
 var app = builder.Build();
 
